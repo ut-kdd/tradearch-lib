@@ -1,0 +1,12 @@
+# IDE
+.vscode
+.idea
+
+# build
+build
+dist
+*.egg-info
+
+# jupyter test
+example.ipynb
+.ipynb_checkpoints
