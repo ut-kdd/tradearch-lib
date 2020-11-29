@@ -1,40 +1,40 @@
 import math
-from pathlib import Path
 from typing import Iterable, Dict
 
 import pandas as pd
+import pkg_resources
 
 from tradearch.core.provider import Provider
 
 
-class USStockOHCPProvider(Provider):
+class UsStockPriceProvider(Provider):
     def __init__(self, symbol: str):
         super().__init__()
         self.symbol = symbol
 
     def get_all_data(self) -> pd.DataFrame:
-        file_path = Path(__file__).parent.parent.joinpath(f'data/us_stocks/{self.symbol}.csv')
+        file_path = pkg_resources.resource_filename('tradearch', f'data/us_stocks/{self.symbol}.csv')
 
         dataset = pd.read_csv(file_path, parse_dates=True, index_col='date')
         dataset = dataset.dropna()
         return dataset
 
 
-class USStockDiffProvider(Provider):
+class UsStockDiffProvider(Provider):
     def __init__(self, symbol: str, n_days: int = 1):
         super().__init__()
         self.symbol = symbol
         self.n_days = n_days
 
     def get_all_data(self) -> pd.DataFrame:
-        ohcp_dataset = USStockOHCPProvider(symbol=self.symbol).get_all_data()
+        ohcp_dataset = UsStockPriceProvider(symbol=self.symbol).get_all_data()
 
         dataset = ohcp_dataset.diff(self.n_days)
         dataset = dataset.dropna()
         return dataset
 
 
-class USStockDiffQuantizedProvider(Provider):
+class UsStockDiffQuantizedProvider(Provider):
     def __init__(self, symbol: str, bins: Dict[str, Iterable[float]],
                  labels: Dict[str, Iterable[int]], n_days: int = 1):
         super().__init__()
@@ -44,7 +44,7 @@ class USStockDiffQuantizedProvider(Provider):
         self.n_days = n_days
 
     def get_all_data(self) -> pd.DataFrame:
-        diff_dataset = USStockDiffProvider(symbol=self.symbol, n_days=self.n_days).get_all_data()
+        diff_dataset = UsStockDiffProvider(symbol=self.symbol, n_days=self.n_days).get_all_data()
 
         dataset = pd.DataFrame()
         for col in diff_dataset.columns:
@@ -53,7 +53,7 @@ class USStockDiffQuantizedProvider(Provider):
         return dataset
 
 
-class USStockMovementProvider(Provider):
+class UsStockMovementProvider(Provider):
     def __init__(self, symbol: str, n_days: int = 1):
         super().__init__()
         self.symbol = symbol
@@ -76,6 +76,6 @@ class USStockMovementProvider(Provider):
             'adj_close': [-1, 1],
             'volume': [-1, 1],
         }
-        dataset = USStockDiffQuantizedProvider(symbol=self.symbol, bins=bins, labels=labels,
+        dataset = UsStockDiffQuantizedProvider(symbol=self.symbol, bins=bins, labels=labels,
                                                n_days=self.n_days).get_all_data()
         return dataset

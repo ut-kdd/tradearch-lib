@@ -10,18 +10,19 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 setup(
     # region core
     name="tradearch",
-    version="0.0.1",
+    version="0.0.2",
     python_requires=">=3.5",
     packages=find_packages(exclude=["scripts"]),
     install_requires=[
         "joblib==0.17.0; python_version >= '3.6'",
         "numpy==1.19.4",
         "pandas==1.1.4",
-        "python-dateutil==2.8.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+        "python-dateutil==2.8.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
         "pytz==2020.4",
         "scikit-learn==0.23.2",
         "scipy==1.5.4; python_version >= '3.6'",
-        "six==1.15.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+        "six==1.15.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+        "ta==0.7.0",
         "threadpoolctl==2.1.0; python_version >= '3.5'",
     ],
     extras_require={
@@ -54,8 +55,8 @@ setup(
             "plette[validation]==0.2.3; python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "pycparser==2.20; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "pygments==2.7.2; python_version >= '3.5'",
-            "pyparsing==2.4.7; python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2'",
-            "python-dateutil==2.8.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "pyparsing==2.4.7; python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "python-dateutil==2.8.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "readme-renderer==28.0",
             "regex==2020.11.13",
             "requests==2.25.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
@@ -63,8 +64,8 @@ setup(
             "requirementslib==1.5.16; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
             "rfc3986==1.4.0",
             "secretstorage==3.3.0; sys_platform == 'linux'",
-            "six==1.15.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
-            "toml==0.10.2; python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2'",
+            "six==1.15.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "toml==0.10.2; python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "tomlkit==0.7.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
             "tqdm==4.54.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "twine==3.2.0",
@@ -88,5 +89,8 @@ setup(
         "Bug Reports": "https://github.com/ut-kdd/tradearch-lib/issues",
         "Source": "https://github.com/ut-kdd/tradearch-lib/",
     },
+    # endregion
+    # region data
+    package_data={"tradearch": ["data/*"]},
     # endregion
 )

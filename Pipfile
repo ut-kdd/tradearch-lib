@@ -11,6 +11,7 @@ twine = "*"
 pandas = "*"
 numpy = "*"
 scikit-learn = "*"
+ta = "*"
 
 [requires]
 python_version = "3.8"
@@ -19,4 +20,4 @@ python_version = "3.8"
 sync = "pipenv-setup sync --dev"
 build = "python setup.py sdist bdist_wheel"
 publish = "twine upload dist/*"
-clean = "rm -r dist marketerch.egg-info build \"./*.egg-info\""
+clean = "rm -r dist tradearch.egg-info build \"./*.egg-info\""
