@@ -24,6 +24,7 @@ def generate_model_from_scikit_model(scikit_model_class: Type, model_output_type
             self._scikit_model.fit(x, y)
 
         def predict(self, x: pd.DataFrame) -> pd.Series:
-            return self._scikit_model.predict(x)
+            prediction = self._scikit_model.predict(x)
+            return pd.Series()
 
     return ScikitModel

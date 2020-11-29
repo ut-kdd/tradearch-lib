@@ -5,14 +5,14 @@ from tradearch.core.provider import Provider
 
 
 class SMAIndicatorProvider(Provider):
-    def __init__(self, price_provider: Provider, n: int = 14):
+    def __init__(self, price_provider: Provider, window: int = 14):
         self.price_provider = price_provider
-        self.n = n
+        self.window = window
 
     def get_all_data(self) -> pd.DataFrame:
         prices = self.price_provider.get_all_data()
 
-        indicator = SMAIndicator(close=prices['adj_close'], n=self.n, fillna=False)
+        indicator = SMAIndicator(close=prices['adj_close'], window=self.window, fillna=False)
 
         ret = indicator.sma_indicator().to_frame(name='sma')
         ret['sma_signal'] = 0  # no signal
@@ -23,17 +23,17 @@ class SMAIndicatorProvider(Provider):
 
 
 class MACDIndicatorProvider(Provider):
-    def __init__(self, price_provider: Provider, n_slow: int = 26, n_fast: int = 12, n_sign: int = 9):
+    def __init__(self, price_provider: Provider, window_slow: int = 26, window_fast: int = 12, window_sign: int = 9):
         self.price_provider = price_provider
-        self.n_slow = n_slow
-        self.n_fast = n_fast
-        self.n_sign = n_sign
+        self.window_slow = window_slow
+        self.window_fast = window_fast
+        self.window_sign = window_sign
 
     def get_all_data(self) -> pd.DataFrame:
         prices = self.price_provider.get_all_data()
 
         indicator = MACD(close=prices['adj_close'],
-                         n_slow=self.n_slow, n_fast=self.n_fast, n_sign=self.n_sign,
+                         window_slow=self.window_slow, window_fast=self.window_fast, window_sign=self.window_sign,
                          fillna=False)
 
         ret = indicator.macd().to_frame(name='macd')

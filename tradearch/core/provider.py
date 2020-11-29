@@ -6,8 +6,14 @@ import pandas as pd
 
 
 class Provider(ABC):
+    def __init__(self):
+        self._data_cache = None
+
     def get_data(self, from_t: Optional[datetime] = None, to_t: Optional[datetime] = None) -> pd.DataFrame:
-        dataset = self.get_all_data()
+        if self._data_cache is None:
+            self._data_cache = self.get_all_data()
+
+        dataset = self._data_cache
 
         if from_t is None:
             from_t = dataset.index.min()
@@ -22,6 +28,9 @@ class Provider(ABC):
     def get_date_range(self) -> Tuple[datetime, datetime]:
         dataset = self.get_all_data()
         return dataset.index.min(), dataset.index.max()
+
+    def clear_cache(self):
+        self._data_cache = None
 
     @abstractmethod
     def get_all_data(self) -> pd.DataFrame:
@@ -39,4 +48,7 @@ def get_provider_dataset(provider: Provider, from_t: datetime, to_t: datetime,
     if slug:
         dataset = dataset.add_prefix(prefix=slug)
 
-    return dataset[columns if columns is not None else dataset.columns]
+    if columns is not None:
+        return dataset[columns]
+
+    return dataset

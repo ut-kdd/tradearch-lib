@@ -108,7 +108,10 @@ class Model(ABC):
             return pd.DataFrame()
 
         ret = input_datasets[0]
-        for dataset in input_datasets:
+        for i, dataset in enumerate(input_datasets):
+            if i == 0:
+                continue
+
             ret = pd.merge(ret, dataset, left_index=True, right_index=True)
 
         ret = ret.dropna()
